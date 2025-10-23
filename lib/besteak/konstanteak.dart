@@ -9,20 +9,6 @@ class Konstanteak {
       abiadura: 1.0,
       bateriaEdukiera: 80,
     ),
-    Ibilgailua(
-      izena: 'Bizikleta Hirikoa',
-      emotikonoa: '🚲',
-      prezioa: 500,
-      abiadura: 1.2,
-      bateriaEdukiera: 100,
-    ),
-    Ibilgailua(
-      izena: 'Patinete Pro',
-      emotikonoa: '⚡',
-      prezioa: 800,
-      abiadura: 1.5,
-      bateriaEdukiera: 120,
-    ),
   ];
 
   static final Map<String, Map<String, double>> kokalekuPosizioak = {

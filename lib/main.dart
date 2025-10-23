@@ -3,7 +3,7 @@ import 'pantailak/mapa_pantailak.dart';
 import 'package:erronka/modeloak/entrega.dart';
 import 'package:erronka/modeloak/ibilgailua.dart';
 import 'package:erronka/main.dart';
-import 'package:erronka/utilidades/hiztegia.dart';
+import 'package:erronka/besteak/hiztegia.dart';
 import '';
 
 void main() {
