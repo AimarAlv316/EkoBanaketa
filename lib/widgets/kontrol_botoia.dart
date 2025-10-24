@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 class KontrolBotoia extends StatelessWidget {
   final IconData ikonoa;
   final VoidCallback sakatuta;
+  final Color kolorea;
 
   const KontrolBotoia({
     Key? key,
     required this.ikonoa,
     required this.sakatuta,
+    this.kolorea = Colors.blue,
   }) : super(key: key);
 
   @override
@@ -16,24 +18,24 @@ class KontrolBotoia extends StatelessWidget {
     return GestureDetector(
       onTap: sakatuta,
       child: Container(
-        width: 50,  // ALDATUTA: Txikiagoa
-        height: 50, // ALDATUTA: Txikiagoa
-        margin: EdgeInsets.all(4),
+        width: 60,
+        height: 60,
+        margin: EdgeInsets.all(6),
         decoration: BoxDecoration(
-          color: Colors.blue,
-          borderRadius: BorderRadius.circular(25),
+          color: kolorea,
+          borderRadius: BorderRadius.circular(30),
           boxShadow: [
             BoxShadow(
-              color: Colors.black26,
-              blurRadius: 4,
-              offset: Offset(0, 2),
+              color: kolorea.withOpacity(0.3),
+              blurRadius: 8,
+              offset: Offset(0, 4),
             ),
           ],
         ),
         child: Icon(
           ikonoa,
           color: Colors.white,
-          size: 24, // ALDATUTA: Txikiagoa
+          size: 28,
         ),
       ),
     );

@@ -7,6 +7,7 @@ enum Norabidea { GORA, BEHERA, EZKERRA, ESKUMA }
 
 class SugeJokoLogika {
   final Function() onJokoaEguneratu;
+  final int abiadura;
 
   late List<Offset> sugeGorputza;
   late Offset sugeBurua;
@@ -16,11 +17,13 @@ class SugeJokoLogika {
   late bool jokoaBukatuta;
   int puntuak = 0;
 
-  // ALDATUTA: Jolas eremua txikiagoa
   final int zutabeKopurua = 10;
   final int errenkadaKopurua = 15;
 
-  SugeJokoLogika({required this.onJokoaEguneratu}) {
+  SugeJokoLogika({
+    required this.onJokoaEguneratu,
+    this.abiadura = 200, // Default abiadura
+  }) {
     hasiJokoa();
   }
 
@@ -32,7 +35,7 @@ class SugeJokoLogika {
     puntuak = 0;
     sortuJanaria();
 
-    denbora = Timer.periodic(Duration(milliseconds: 200), (timer) {
+    denbora = Timer.periodic(Duration(milliseconds: abiadura), (timer) {
       if (!jokoaBukatuta) {
         mugituSugea();
         onJokoaEguneratu();
@@ -42,6 +45,7 @@ class SugeJokoLogika {
     });
   }
 
+  // Gainerako kodea berdina...
   void mugituSugea() {
     Offset buruBerria;
 
