@@ -13,6 +13,7 @@ class SugeJokoLogika {
   late Offset sugeBurua;
   late Offset janaria;
   late Norabidea norabidea;
+  late Norabidea hurrengoNorabidea; // GEHITU: Hurrengo norabidea bufferra
   late Timer denbora;
   late bool jokoaBukatuta;
   int puntuak = 0;
@@ -22,7 +23,7 @@ class SugeJokoLogika {
 
   SugeJokoLogika({
     required this.onJokoaEguneratu,
-    this.abiadura = 200, // Default abiadura
+    this.abiadura = 200,
   }) {
     hasiJokoa();
   }
@@ -31,12 +32,15 @@ class SugeJokoLogika {
     sugeBurua = Offset((zutabeKopurua ~/ 2).toDouble(), (errenkadaKopurua ~/ 2).toDouble());
     sugeGorputza = [sugeBurua];
     norabidea = Norabidea.ESKUMA;
+    hurrengoNorabidea = Norabidea.ESKUMA; // GEHITU: Hurrengo norabidea hasieratu
     jokoaBukatuta = false;
     puntuak = 0;
     sortuJanaria();
 
     denbora = Timer.periodic(Duration(milliseconds: abiadura), (timer) {
       if (!jokoaBukatuta) {
+        // GEHITU: Hurrengo norabidea aplikatu
+        norabidea = hurrengoNorabidea;
         mugituSugea();
         onJokoaEguneratu();
       } else {
@@ -45,7 +49,6 @@ class SugeJokoLogika {
     });
   }
 
-  // Gainerako kodea berdina...
   void mugituSugea() {
     Offset buruBerria;
 
@@ -106,7 +109,8 @@ class SugeJokoLogika {
       return;
     }
 
-    norabidea = norabideBerria;
+    // GEHITU: Hurrengo norabidea gorde (bufferra)
+    hurrengoNorabidea = norabideBerria;
   }
 
   void dispose() {

@@ -130,9 +130,13 @@ class _PantailaHasiState extends State<PantailaHasi> {
                 SizedBox(height: 24), // TXIKITUTA: 40etik 24ra
 
                 // Hasi jokoa botoia - GARRANTITSUA: Botoia ikusteko
+                // pantaila_hasi.dart - Gehitu testu hau "HASI JOKOA" botoiaren azpian
+// ... kodearen beste zatiak ...
+
+                // Hasi jokoa botoia
                 Container(
                   width: double.infinity,
-                  height: 50, // TXIKITUTA: 56tik 50ra
+                  height: 50,
                   child: ElevatedButton(
                     onPressed: aukeratutakoSugeMota != null && aukeratutakoZailtasuna != null
                         ? () {
@@ -151,7 +155,7 @@ class _PantailaHasiState extends State<PantailaHasi> {
                       backgroundColor: aukeratutakoSugeMota?.buruKolorea ?? Color(0xFF4CAF50),
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10), // TXIKITUTA: 12tik 10era
+                        borderRadius: BorderRadius.circular(10),
                       ),
                       elevation: 2,
                     ),
@@ -164,7 +168,17 @@ class _PantailaHasiState extends State<PantailaHasi> {
                     ),
                   ),
                 ),
-                SizedBox(height: 10), // TXIKITUTA: 20tik 10era
+                SizedBox(height: 8),
+                // GEHITU: Teklatuko argibideak
+                Text(
+                  'Jokoa hastean, erabili geziak edo WASD mugitzeko',
+                  style: TextStyle(
+                    color: Colors.grey[600],
+                    fontSize: 12,
+                  ),
+                ),
+                SizedBox(height: 10),
+// ... kodearen beste zatiak ...
               ],
             ),
           ),
