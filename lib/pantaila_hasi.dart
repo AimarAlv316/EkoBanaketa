@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'joko_orria.dart';
 import 'suge_mota.dart';
-import 'login_orria.dart'; // Añadido para el logout
+import 'login_orria.dart';
 
 class PantailaHasi extends StatefulWidget {
   @override
@@ -13,7 +13,6 @@ class _PantailaHasiState extends State<PantailaHasi> {
   int? aukeratutakoZailtasuna;
 
   final List<SugeMota> sugeMotak = [
-    // ... (mantener igual tu código existente)
     SugeMota(
       izena: 'Klasikoa',
       deskribapena: 'Suge tradizionala',
@@ -105,7 +104,7 @@ class _PantailaHasiState extends State<PantailaHasi> {
                 ),
                 SizedBox(height: 4),
                 Text(
-                  '10x10 taula - Aukeratu zure sugea eta hasi jolasten',
+                  'Aukeratu zure sugea eta hasi jolasten',
                   style: TextStyle(
                     fontSize: 12,
                     color: Colors.grey[600],
@@ -114,72 +113,184 @@ class _PantailaHasiState extends State<PantailaHasi> {
                 ),
                 SizedBox(height: 24),
 
-                // ... (mantener el resto de tu código igual)
-                Text(
-                  'AUKERATU SUGE MOTA',
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.grey[700],
-                    letterSpacing: 1.0,
+                // Suge mota aukeraketa - REDUCIDO A LA MITAD
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'AUKERATU SUGE MOTA',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.grey[700],
+                      letterSpacing: 1.0,
+                    ),
                   ),
                 ),
-                SizedBox(height: 12),
+                SizedBox(height: 8),
                 GridView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    crossAxisSpacing: 8,
-                    mainAxisSpacing: 8,
-                    childAspectRatio: 1.0,
+                    crossAxisSpacing: 6, // Reducido
+                    mainAxisSpacing: 6, // Reducido
+                    childAspectRatio: 1.3, // Ajustado para mejor proporción
                   ),
                   itemCount: sugeMotak.length,
                   itemBuilder: (context, index) {
                     final sugeMota = sugeMotak[index];
-                    return _sugeMotaTxartela(sugeMota);
-                  },
-                ),
-                SizedBox(height: 20),
+                    final bool aukeratuta = aukeratutakoSugeMota == sugeMota;
 
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: Colors.green[50],
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: Colors.green[100]!, width: 1),
-                  ),
-                  child: Text(
-                    '🔲 10x10 Taula',
-                    style: TextStyle(
-                      color: Colors.green[700],
-                      fontWeight: FontWeight.w500,
-                      fontSize: 12,
-                    ),
-                  ),
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          aukeratutakoSugeMota = sugeMota;
+                        });
+                      },
+                      child: AnimatedContainer(
+                        duration: Duration(milliseconds: 200),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8), // Reducido
+                          border: Border.all(
+                            color: aukeratuta ? sugeMota.buruKolorea : Colors.grey[300]!,
+                            width: aukeratuta ? 2 : 1,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.05),
+                              blurRadius: 4, // Reducido
+                              offset: Offset(0, 1), // Reducido
+                            ),
+                          ],
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(8), // Reducido a la mitad
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                padding: EdgeInsets.all(4), // Reducido
+                                decoration: BoxDecoration(
+                                  color: sugeMota.buruKolorea.withOpacity(0.1),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Icon(
+                                  sugeMota.ikonoa,
+                                  color: sugeMota.buruKolorea,
+                                  size: 16, // Reducido a la mitad
+                                ),
+                              ),
+                              SizedBox(height: 6), // Reducido
+                              Text(
+                                sugeMota.izena,
+                                style: TextStyle(
+                                  color: Colors.grey[800],
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 11, // Reducido
+                                ),
+                              ),
+                              SizedBox(height: 2),
+                              Text(
+                                sugeMota.deskribapena,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.grey[600],
+                                  fontSize: 8, // Reducido
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
                 ),
                 SizedBox(height: 16),
 
-                Text(
-                  'AUKERATU ZAILTASUNA',
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.grey[700],
-                    letterSpacing: 1.0,
+                // Zailtasun aukeraketa
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'AUKERATU ZAILTASUNA',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.grey[700],
+                      letterSpacing: 1.0,
+                    ),
                   ),
                 ),
                 SizedBox(height: 12),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: zailtasunak.asMap().entries.map((entry) {
-                    final index = entry.key;
-                    final zailtasuna = entry.value;
-                    return _zailtasunBotoia(zailtasuna, index);
-                  }).toList(),
+                  children: [
+                    for (int index = 0; index < zailtasunak.length; index++)
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            aukeratutakoZailtasuna = index;
+                          });
+                        },
+                        child: AnimatedContainer(
+                          duration: Duration(milliseconds: 200),
+                          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                          decoration: BoxDecoration(
+                            color: aukeratutakoZailtasuna == index
+                                ? (aukeratutakoSugeMota?.buruKolorea ?? Color(0xFF4CAF50))
+                                : Colors.white,
+                            borderRadius: BorderRadius.circular(6),
+                            border: Border.all(
+                              color: aukeratutakoZailtasuna == index
+                                  ? (aukeratutakoSugeMota?.buruKolorea ?? Color(0xFF4CAF50))
+                                  : Colors.grey[300]!,
+                              width: 1,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.05),
+                                blurRadius: 3,
+                                offset: Offset(0, 1),
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                zailtasunak[index]['izena'],
+                                style: TextStyle(
+                                  color: aukeratutakoZailtasuna == index ? Colors.white : Colors.grey[800],
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 11,
+                                ),
+                              ),
+                              SizedBox(height: 2),
+                              Text(
+                                zailtasunak[index]['deskribapena'],
+                                style: TextStyle(
+                                  color: aukeratutakoZailtasuna == index ? Colors.white.withOpacity(0.8) : Colors.grey[600],
+                                  fontSize: 9,
+                                ),
+                              ),
+                              SizedBox(height: 2),
+                              Text(
+                                '${zailtasunak[index]['puntuak']} puntu',
+                                style: TextStyle(
+                                  color: aukeratutakoZailtasuna == index ? Colors.white.withOpacity(0.9) : Colors.grey[700],
+                                  fontSize: 8,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
                 SizedBox(height: 24),
 
+                // Hasi jokoa botoia
                 Container(
                   width: double.infinity,
                   height: 50,
@@ -227,137 +338,6 @@ class _PantailaHasiState extends State<PantailaHasi> {
               ],
             ),
           ),
-        ),
-      ),
-    );
-  }
-
-  // ... (mantener los métodos _sugeMotaTxartela y _zailtasunBotoia igual)
-  Widget _sugeMotaTxartela(SugeMota sugeMota) {
-    final bool aukeratuta = aukeratutakoSugeMota == sugeMota;
-
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          aukeratutakoSugeMota = sugeMota;
-        });
-      },
-      child: AnimatedContainer(
-        duration: Duration(milliseconds: 200),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(
-            color: aukeratuta ? sugeMota.buruKolorea : Colors.grey[300]!,
-            width: aukeratuta ? 2 : 1,
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              blurRadius: 6,
-              offset: Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Padding(
-          padding: EdgeInsets.all(12),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                padding: EdgeInsets.all(6),
-                decoration: BoxDecoration(
-                  color: sugeMota.buruKolorea.withOpacity(0.1),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  sugeMota.ikonoa,
-                  color: sugeMota.buruKolorea,
-                  size: 20,
-                ),
-              ),
-              SizedBox(height: 8),
-              Text(
-                sugeMota.izena,
-                style: TextStyle(
-                  color: Colors.grey[800],
-                  fontWeight: FontWeight.w500,
-                  fontSize: 13,
-                ),
-              ),
-              SizedBox(height: 2),
-              Text(
-                sugeMota.deskribapena,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.grey[600],
-                  fontSize: 10,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _zailtasunBotoia(Map<String, dynamic> zailtasuna, int index) {
-    final bool aukeratuta = aukeratutakoZailtasuna == index;
-    final Color? kolorea = aukeratutakoSugeMota?.buruKolorea;
-
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          aukeratutakoZailtasuna = index;
-        });
-      },
-      child: AnimatedContainer(
-        duration: Duration(milliseconds: 200),
-        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        decoration: BoxDecoration(
-          color: aukeratuta ? (kolorea ?? Color(0xFF4CAF50)) : Colors.white,
-          borderRadius: BorderRadius.circular(6),
-          border: Border.all(
-            color: aukeratuta ? (kolorea ?? Color(0xFF4CAF50)) : Colors.grey[300]!,
-            width: 1,
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              blurRadius: 3,
-              offset: Offset(0, 1),
-            ),
-          ],
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              zailtasuna['izena'],
-              style: TextStyle(
-                color: aukeratuta ? Colors.white : Colors.grey[800],
-                fontWeight: FontWeight.w500,
-                fontSize: 11,
-              ),
-            ),
-            SizedBox(height: 2),
-            Text(
-              zailtasuna['deskribapena'],
-              style: TextStyle(
-                color: aukeratuta ? Colors.white.withOpacity(0.8) : Colors.grey[600],
-                fontSize: 9,
-              ),
-            ),
-            SizedBox(height: 2),
-            Text(
-              '${zailtasuna['puntuak']} puntu',
-              style: TextStyle(
-                color: aukeratuta ? Colors.white.withOpacity(0.9) : Colors.grey[700],
-                fontSize: 8,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
         ),
       ),
     );
