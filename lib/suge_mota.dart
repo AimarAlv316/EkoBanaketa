@@ -1,4 +1,3 @@
-// suge_mota.dart
 import 'package:flutter/material.dart';
 
 class SugeMota {

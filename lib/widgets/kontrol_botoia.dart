@@ -1,4 +1,3 @@
-// widgets/kontrol_botoia.dart
 import 'package:flutter/material.dart';
 
 class KontrolBotoia extends StatelessWidget {
@@ -10,7 +9,7 @@ class KontrolBotoia extends StatelessWidget {
     Key? key,
     required this.ikonoa,
     required this.sakatuta,
-    this.kolorea = Colors.blue,
+    required this.kolorea,
   }) : super(key: key);
 
   @override

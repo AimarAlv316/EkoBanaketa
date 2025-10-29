@@ -1,4 +1,3 @@
-// pantaila_hasi.dart
 import 'package:flutter/material.dart';
 import 'joko_orria.dart';
 import 'suge_mota.dart';
@@ -43,7 +42,6 @@ class _PantailaHasiState extends State<PantailaHasi> {
     ),
   ];
 
-  // ALDATUTA: Puntuak gehitu zailtasun bakoitzean
   final List<Map<String, dynamic>> zailtasunak = [
     {'izena': 'Erraza', 'balioa': 300, 'deskribapena': 'Geldiagoa', 'puntuak': 10},
     {'izena': 'Normala', 'balioa': 200, 'deskribapena': 'Erdikoa', 'puntuak': 15},
@@ -61,7 +59,6 @@ class _PantailaHasiState extends State<PantailaHasi> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // Logo eta izenburua
                 SizedBox(height: 20),
                 Container(
                   padding: EdgeInsets.all(16),
@@ -88,7 +85,7 @@ class _PantailaHasiState extends State<PantailaHasi> {
                 ),
                 SizedBox(height: 4),
                 Text(
-                  'Aukeratu zure sugea eta hasi jolasten',
+                  '10x10 taula - Aukeratu zure sugea eta hasi jolasten',
                   style: TextStyle(
                     fontSize: 12,
                     color: Colors.grey[600],
@@ -97,8 +94,15 @@ class _PantailaHasiState extends State<PantailaHasi> {
                 ),
                 SizedBox(height: 24),
 
-                // Suge mota aukeraketa
-                _atalBurua('SUGE MOTA'),
+                Text(
+                  'AUKERATU SUGE MOTA',
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.grey[700],
+                    letterSpacing: 1.0,
+                  ),
+                ),
                 SizedBox(height: 12),
                 GridView.builder(
                   shrinkWrap: true,
@@ -117,8 +121,33 @@ class _PantailaHasiState extends State<PantailaHasi> {
                 ),
                 SizedBox(height: 20),
 
-                // Zailtasun aukeraketa
-                _atalBurua('ZAILTASUNA'),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: Colors.green[50],
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Colors.green[100]!, width: 1),
+                  ),
+                  child: Text(
+                    '🔲 10x10 Taula',
+                    style: TextStyle(
+                      color: Colors.green[700],
+                      fontWeight: FontWeight.w500,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 16),
+
+                Text(
+                  'AUKERATU ZAILTASUNA',
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.grey[700],
+                    letterSpacing: 1.0,
+                  ),
+                ),
                 SizedBox(height: 12),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -130,7 +159,6 @@ class _PantailaHasiState extends State<PantailaHasi> {
                 ),
                 SizedBox(height: 24),
 
-                // Hasi jokoa botoia
                 Container(
                   width: double.infinity,
                   height: 50,
@@ -143,7 +171,7 @@ class _PantailaHasiState extends State<PantailaHasi> {
                           builder: (context) => JokoOrria(
                             sugeMota: aukeratutakoSugeMota!,
                             zailtasuna: zailtasunak[aukeratutakoZailtasuna!]['balioa'],
-                            puntuakPerJanaria: zailtasunak[aukeratutakoZailtasuna!]['puntuak'], // GEHITU
+                            puntuakPerJanaria: zailtasunak[aukeratutakoZailtasuna!]['puntuak'],
                           ),
                         ),
                       );
@@ -167,7 +195,6 @@ class _PantailaHasiState extends State<PantailaHasi> {
                   ),
                 ),
                 SizedBox(height: 8),
-                // Teklatuko argibideak
                 Text(
                   'Jokoa hastean, erabili geziak edo WASD mugitzeko',
                   style: TextStyle(
@@ -179,21 +206,6 @@ class _PantailaHasiState extends State<PantailaHasi> {
               ],
             ),
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _atalBurua(String izenburua) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: Text(
-        izenburua,
-        style: TextStyle(
-          fontSize: 13,
-          fontWeight: FontWeight.w500,
-          color: Colors.grey[700],
-          letterSpacing: 1.0,
         ),
       ),
     );
@@ -314,7 +326,6 @@ class _PantailaHasiState extends State<PantailaHasi> {
                 fontSize: 9,
               ),
             ),
-            // GEHITU: Puntuak erakusteko
             SizedBox(height: 2),
             Text(
               '${zailtasuna['puntuak']} puntu',

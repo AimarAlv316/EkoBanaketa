@@ -1,4 +1,3 @@
-// main.dart
 import 'package:flutter/material.dart';
 import 'pantaila_hasi.dart';
 
@@ -10,7 +9,7 @@ class SugeJokoaApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Google Snake Jokoa',
+      title: 'Suge Jokoa',
       theme: ThemeData(
         primarySwatch: Colors.green,
         useMaterial3: true,

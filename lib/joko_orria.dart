@@ -1,4 +1,3 @@
-// joko_orria.dart
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'suge_joko_logika.dart';
@@ -9,13 +8,13 @@ import 'pantaila_hasi.dart';
 class JokoOrria extends StatefulWidget {
   final SugeMota sugeMota;
   final int zailtasuna;
-  final int puntuakPerJanaria; // GEHITU: Puntuak parametroa
+  final int puntuakPerJanaria;
 
   const JokoOrria({
     Key? key,
     required this.sugeMota,
     required this.zailtasuna,
-    required this.puntuakPerJanaria, // GEHITU
+    required this.puntuakPerJanaria,
   }) : super(key: key);
 
   @override
@@ -32,7 +31,7 @@ class _JokoOrriaState extends State<JokoOrria> {
     jokoLogika = SugeJokoLogika(
       onJokoaEguneratu: () => setState(() {}),
       abiadura: widget.zailtasuna,
-      puntuakPerJanaria: widget.puntuakPerJanaria, // GEHITU
+      puntuakPerJanaria: widget.puntuakPerJanaria,
     );
     jokoLogika.hasiJokoa();
 
@@ -78,7 +77,7 @@ class _JokoOrriaState extends State<JokoOrria> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Suge Jokoa',
+          'Suge Jokoa - 10x10',
           style: TextStyle(
             fontWeight: FontWeight.w300,
             color: Colors.grey[800],
@@ -102,7 +101,6 @@ class _JokoOrriaState extends State<JokoOrria> {
                   ),
                 ),
                 SizedBox(width: 8),
-                // GEHITU: Puntu sistema erakusteko
                 Text(
                   '(${widget.puntuakPerJanaria}/janaria)',
                   style: TextStyle(
@@ -129,9 +127,9 @@ class _JokoOrriaState extends State<JokoOrria> {
           },
           child: Column(
             children: [
-              // Jolas eremua
               Container(
-                height: MediaQuery.of(context).size.height * 0.5,
+                width: MediaQuery.of(context).size.width * 0.9,
+                height: MediaQuery.of(context).size.width * 0.9,
                 margin: EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.grey[300]!, width: 1),
@@ -151,7 +149,7 @@ class _JokoOrriaState extends State<JokoOrria> {
 
                     if (jokoLogika.sugeBurua == posizioa) {
                       return Container(
-                        margin: EdgeInsets.all(0.5),
+                        margin: EdgeInsets.all(1),
                         decoration: BoxDecoration(
                           color: widget.sugeMota.buruKolorea,
                           borderRadius: BorderRadius.circular(4),
@@ -159,7 +157,7 @@ class _JokoOrriaState extends State<JokoOrria> {
                       );
                     } else if (jokoLogika.sugeGorputza.contains(posizioa)) {
                       return Container(
-                        margin: EdgeInsets.all(0.5),
+                        margin: EdgeInsets.all(1),
                         decoration: BoxDecoration(
                           color: widget.sugeMota.gorputzKolorea,
                           borderRadius: BorderRadius.circular(2),
@@ -167,16 +165,16 @@ class _JokoOrriaState extends State<JokoOrria> {
                       );
                     } else if (jokoLogika.janaria == posizioa) {
                       return Container(
-                        margin: EdgeInsets.all(0.5),
+                        margin: EdgeInsets.all(1),
                         decoration: BoxDecoration(
                           color: Colors.red,
                           borderRadius: BorderRadius.circular(6),
                         ),
-                        child: Icon(Icons.circle, color: Colors.white, size: 10),
+                        child: Icon(Icons.circle, color: Colors.white, size: 12),
                       );
                     } else {
                       return Container(
-                        margin: EdgeInsets.all(0.5),
+                        margin: EdgeInsets.all(1),
                         decoration: BoxDecoration(
                           color: Colors.grey[200],
                           borderRadius: BorderRadius.circular(1),
@@ -187,7 +185,6 @@ class _JokoOrriaState extends State<JokoOrria> {
                 ),
               ),
 
-              // Kontrolak
               Expanded(
                 child: Container(
                   padding: EdgeInsets.all(10),
@@ -201,11 +198,10 @@ class _JokoOrriaState extends State<JokoOrria> {
                           fontSize: 12,
                         ),
                       ),
-                      SizedBox(height: 6),
+                      SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          // Kontrol botoiak
                           Column(
                             children: [
                               KontrolBotoia(
@@ -236,7 +232,6 @@ class _JokoOrriaState extends State<JokoOrria> {
                             ],
                           ),
 
-                          // Berrabiarazi botoia
                           Column(
                             children: [
                               ElevatedButton(

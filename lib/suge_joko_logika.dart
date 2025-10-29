@@ -1,4 +1,3 @@
-// suge_joko_logika.dart
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
@@ -8,7 +7,7 @@ enum Norabidea { GORA, BEHERA, EZKERRA, ESKUMA }
 class SugeJokoLogika {
   final Function() onJokoaEguneratu;
   final int abiadura;
-  final int puntuakPerJanaria; // GEHITU: Puntuak janari bakoitzeko
+  final int puntuakPerJanaria;
 
   late List<Offset> sugeGorputza;
   late Offset sugeBurua;
@@ -25,7 +24,7 @@ class SugeJokoLogika {
   SugeJokoLogika({
     required this.onJokoaEguneratu,
     required this.abiadura,
-    required this.puntuakPerJanaria, // GEHITU
+    required this.puntuakPerJanaria,
   }) {
     hasiJokoa();
   }
@@ -68,7 +67,6 @@ class SugeJokoLogika {
         break;
     }
 
-    // Mugako kontrola
     if (buruBerria.dx < 0 ||
         buruBerria.dx >= zutabeKopurua ||
         buruBerria.dy < 0 ||
@@ -81,9 +79,8 @@ class SugeJokoLogika {
     sugeGorputza.insert(0, buruBerria);
     sugeBurua = buruBerria;
 
-    // Janaria jaten du - ALDATUTA: puntuakPerJanaria erabili
     if (sugeBurua == janaria) {
-      puntuak += puntuakPerJanaria; // ALDATUTA: 10 → puntuakPerJanaria
+      puntuak += puntuakPerJanaria;
       sortuJanaria();
     } else {
       sugeGorputza.removeLast();
@@ -102,7 +99,6 @@ class SugeJokoLogika {
   }
 
   void aldatuNorabidea(Norabidea norabideBerria) {
-    // Ezin da kontrako norabidera aldatu
     if ((norabidea == Norabidea.GORA && norabideBerria == Norabidea.BEHERA) ||
         (norabidea == Norabidea.BEHERA && norabideBerria == Norabidea.GORA) ||
         (norabidea == Norabidea.EZKERRA && norabideBerria == Norabidea.ESKUMA) ||
