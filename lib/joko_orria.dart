@@ -131,7 +131,7 @@ class _JokoOrriaState extends State<JokoOrria> {
             children: [
               // Jolas eremua
               Container(
-                height: MediaQuery.of(context).size.height * 0.6,
+                height: MediaQuery.of(context).size.height * 0.5,
                 margin: EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.grey[300]!, width: 1),
@@ -201,7 +201,7 @@ class _JokoOrriaState extends State<JokoOrria> {
                           fontSize: 12,
                         ),
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: 6),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [

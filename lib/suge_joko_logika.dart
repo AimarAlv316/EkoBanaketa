@@ -20,7 +20,7 @@ class SugeJokoLogika {
   int puntuak = 0;
 
   final int zutabeKopurua = 10;
-  final int errenkadaKopurua = 15;
+  final int errenkadaKopurua = 10;
 
   SugeJokoLogika({
     required this.onJokoaEguneratu,
