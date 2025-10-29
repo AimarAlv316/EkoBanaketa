@@ -1,6 +1,6 @@
 // joko_orria.dart
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart'; // GEHITU HAU teklatua erabiltzeko
+import 'package:flutter/services.dart';
 import 'suge_joko_logika.dart';
 import 'widgets/kontrol_botoia.dart';
 import 'suge_mota.dart';
@@ -9,11 +9,13 @@ import 'pantaila_hasi.dart';
 class JokoOrria extends StatefulWidget {
   final SugeMota sugeMota;
   final int zailtasuna;
+  final int puntuakPerJanaria; // GEHITU: Puntuak parametroa
 
   const JokoOrria({
     Key? key,
     required this.sugeMota,
     required this.zailtasuna,
+    required this.puntuakPerJanaria, // GEHITU
   }) : super(key: key);
 
   @override
@@ -22,7 +24,7 @@ class JokoOrria extends StatefulWidget {
 
 class _JokoOrriaState extends State<JokoOrria> {
   late SugeJokoLogika jokoLogika;
-  final FocusNode _focusNode = FocusNode(); // GEHITU: fokua kudeatzeko
+  final FocusNode _focusNode = FocusNode();
 
   @override
   void initState() {
@@ -30,10 +32,10 @@ class _JokoOrriaState extends State<JokoOrria> {
     jokoLogika = SugeJokoLogika(
       onJokoaEguneratu: () => setState(() {}),
       abiadura: widget.zailtasuna,
+      puntuakPerJanaria: widget.puntuakPerJanaria, // GEHITU
     );
     jokoLogika.hasiJokoa();
 
-    // GEHITU: Fokua eskatu teklatua erabiltzeko
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _focusNode.requestFocus();
     });
@@ -46,12 +48,10 @@ class _JokoOrriaState extends State<JokoOrria> {
     );
   }
 
-  // GEHITU: Teklatuko gertaerak kudeatzeko metodoa
   void _handleKeyEvent(RawKeyEvent event) {
     if (event is RawKeyDownEvent) {
       final key = event.logicalKey;
 
-      // Gezi teklak
       if (key == LogicalKeyboardKey.arrowUp) {
         jokoLogika.aldatuNorabidea(Norabidea.GORA);
       } else if (key == LogicalKeyboardKey.arrowDown) {
@@ -61,7 +61,6 @@ class _JokoOrriaState extends State<JokoOrria> {
       } else if (key == LogicalKeyboardKey.arrowRight) {
         jokoLogika.aldatuNorabidea(Norabidea.ESKUMA);
       }
-      // WASD teklak
       else if (key == LogicalKeyboardKey.keyW) {
         jokoLogika.aldatuNorabidea(Norabidea.GORA);
       } else if (key == LogicalKeyboardKey.keyS) {
@@ -102,6 +101,15 @@ class _JokoOrriaState extends State<JokoOrria> {
                     fontSize: 16,
                   ),
                 ),
+                SizedBox(width: 8),
+                // GEHITU: Puntu sistema erakusteko
+                Text(
+                  '(${widget.puntuakPerJanaria}/janaria)',
+                  style: TextStyle(
+                    color: Colors.grey[600],
+                    fontSize: 12,
+                  ),
+                ),
               ],
             ),
           ),
@@ -112,13 +120,11 @@ class _JokoOrriaState extends State<JokoOrria> {
         ),
       ),
       backgroundColor: Colors.white,
-      // GEHITU: RawKeyboardListener teklatua entzuteko
       body: RawKeyboardListener(
         focusNode: _focusNode,
         onKey: _handleKeyEvent,
         child: GestureDetector(
           onTap: () {
-            // GEHITU: Pantaila sakatzen bada, fokua berrezarri
             _focusNode.requestFocus();
           },
           child: Column(
@@ -188,7 +194,6 @@ class _JokoOrriaState extends State<JokoOrria> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      // GEHITU: Teklatuko argibideak
                       Text(
                         'Erabili geziak edo WASD mugitzeko',
                         style: TextStyle(
@@ -275,7 +280,7 @@ class _JokoOrriaState extends State<JokoOrria> {
 
   @override
   void dispose() {
-    _focusNode.dispose(); // GEHITU: Foku nodoa garbitu
+    _focusNode.dispose();
     jokoLogika.dispose();
     super.dispose();
   }

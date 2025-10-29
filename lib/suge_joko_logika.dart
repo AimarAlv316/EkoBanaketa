@@ -8,12 +8,13 @@ enum Norabidea { GORA, BEHERA, EZKERRA, ESKUMA }
 class SugeJokoLogika {
   final Function() onJokoaEguneratu;
   final int abiadura;
+  final int puntuakPerJanaria; // GEHITU: Puntuak janari bakoitzeko
 
   late List<Offset> sugeGorputza;
   late Offset sugeBurua;
   late Offset janaria;
   late Norabidea norabidea;
-  late Norabidea hurrengoNorabidea; // GEHITU: Hurrengo norabidea bufferra
+  late Norabidea hurrengoNorabidea;
   late Timer denbora;
   late bool jokoaBukatuta;
   int puntuak = 0;
@@ -23,7 +24,8 @@ class SugeJokoLogika {
 
   SugeJokoLogika({
     required this.onJokoaEguneratu,
-    this.abiadura = 200,
+    required this.abiadura,
+    required this.puntuakPerJanaria, // GEHITU
   }) {
     hasiJokoa();
   }
@@ -32,14 +34,13 @@ class SugeJokoLogika {
     sugeBurua = Offset((zutabeKopurua ~/ 2).toDouble(), (errenkadaKopurua ~/ 2).toDouble());
     sugeGorputza = [sugeBurua];
     norabidea = Norabidea.ESKUMA;
-    hurrengoNorabidea = Norabidea.ESKUMA; // GEHITU: Hurrengo norabidea hasieratu
+    hurrengoNorabidea = Norabidea.ESKUMA;
     jokoaBukatuta = false;
     puntuak = 0;
     sortuJanaria();
 
     denbora = Timer.periodic(Duration(milliseconds: abiadura), (timer) {
       if (!jokoaBukatuta) {
-        // GEHITU: Hurrengo norabidea aplikatu
         norabidea = hurrengoNorabidea;
         mugituSugea();
         onJokoaEguneratu();
@@ -80,9 +81,9 @@ class SugeJokoLogika {
     sugeGorputza.insert(0, buruBerria);
     sugeBurua = buruBerria;
 
-    // Janaria jaten du
+    // Janaria jaten du - ALDATUTA: puntuakPerJanaria erabili
     if (sugeBurua == janaria) {
-      puntuak += 10;
+      puntuak += puntuakPerJanaria; // ALDATUTA: 10 → puntuakPerJanaria
       sortuJanaria();
     } else {
       sugeGorputza.removeLast();
@@ -109,7 +110,6 @@ class SugeJokoLogika {
       return;
     }
 
-    // GEHITU: Hurrengo norabidea gorde (bufferra)
     hurrengoNorabidea = norabideBerria;
   }
 
