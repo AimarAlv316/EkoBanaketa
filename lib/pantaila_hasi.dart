@@ -4,6 +4,10 @@ import 'suge_mota.dart';
 import 'login_orria.dart';
 
 class PantailaHasi extends StatefulWidget {
+  final String erabiltzaileIzena;
+
+  const PantailaHasi({Key? key, required this.erabiltzaileIzena}) : super(key: key);
+
   @override
   _PantailaHasiState createState() => _PantailaHasiState();
 }
@@ -11,6 +15,7 @@ class PantailaHasi extends StatefulWidget {
 class _PantailaHasiState extends State<PantailaHasi> {
   SugeMota? aukeratutakoSugeMota;
   int? aukeratutakoZailtasuna;
+  int puntuakTotal = 0;
 
   final List<SugeMota> sugeMotak = [
     SugeMota(
@@ -56,15 +61,45 @@ class _PantailaHasiState extends State<PantailaHasi> {
     );
   }
 
+  void _gehituPuntuak(int puntuak) {
+    setState(() {
+      puntuakTotal += puntuak;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Suge Jokoa'),
+        title: Text(widget.erabiltzaileIzena),
         backgroundColor: Colors.white,
         elevation: 1,
         actions: [
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            decoration: BoxDecoration(
+              color: Colors.green[50],
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: Colors.green[100]!),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.emoji_events, size: 16, color: Colors.green[700]),
+                SizedBox(width: 4),
+                Text(
+                  'Puntuak: $puntuakTotal',
+                  style: TextStyle(
+                    color: Colors.green[700],
+                    fontWeight: FontWeight.w500,
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(width: 8),
           IconButton(
             icon: Icon(Icons.logout, color: Colors.grey[700]),
             onPressed: _eginLogout,
@@ -113,7 +148,6 @@ class _PantailaHasiState extends State<PantailaHasi> {
                 ),
                 SizedBox(height: 24),
 
-                // Suge mota aukeraketa - REDUCIDO A LA MITAD
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -132,9 +166,9 @@ class _PantailaHasiState extends State<PantailaHasi> {
                   physics: NeverScrollableScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    crossAxisSpacing: 6, // Reducido
-                    mainAxisSpacing: 6, // Reducido
-                    childAspectRatio: 1.3, // Ajustado para mejor proporción
+                    crossAxisSpacing: 6,
+                    mainAxisSpacing: 6,
+                    childAspectRatio: 1.3,
                   ),
                   itemCount: sugeMotak.length,
                   itemBuilder: (context, index) {
@@ -151,7 +185,7 @@ class _PantailaHasiState extends State<PantailaHasi> {
                         duration: Duration(milliseconds: 200),
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(8), // Reducido
+                          borderRadius: BorderRadius.circular(8),
                           border: Border.all(
                             color: aukeratuta ? sugeMota.buruKolorea : Colors.grey[300]!,
                             width: aukeratuta ? 2 : 1,
@@ -159,18 +193,18 @@ class _PantailaHasiState extends State<PantailaHasi> {
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black.withOpacity(0.05),
-                              blurRadius: 4, // Reducido
-                              offset: Offset(0, 1), // Reducido
+                              blurRadius: 4,
+                              offset: Offset(0, 1),
                             ),
                           ],
                         ),
                         child: Padding(
-                          padding: EdgeInsets.all(8), // Reducido a la mitad
+                          padding: EdgeInsets.all(8),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Container(
-                                padding: EdgeInsets.all(4), // Reducido
+                                padding: EdgeInsets.all(4),
                                 decoration: BoxDecoration(
                                   color: sugeMota.buruKolorea.withOpacity(0.1),
                                   shape: BoxShape.circle,
@@ -178,16 +212,16 @@ class _PantailaHasiState extends State<PantailaHasi> {
                                 child: Icon(
                                   sugeMota.ikonoa,
                                   color: sugeMota.buruKolorea,
-                                  size: 16, // Reducido a la mitad
+                                  size: 16,
                                 ),
                               ),
-                              SizedBox(height: 6), // Reducido
+                              SizedBox(height: 6),
                               Text(
                                 sugeMota.izena,
                                 style: TextStyle(
                                   color: Colors.grey[800],
                                   fontWeight: FontWeight.w500,
-                                  fontSize: 11, // Reducido
+                                  fontSize: 11,
                                 ),
                               ),
                               SizedBox(height: 2),
@@ -196,7 +230,7 @@ class _PantailaHasiState extends State<PantailaHasi> {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: Colors.grey[600],
-                                  fontSize: 8, // Reducido
+                                  fontSize: 8,
                                 ),
                               ),
                             ],
@@ -208,7 +242,6 @@ class _PantailaHasiState extends State<PantailaHasi> {
                 ),
                 SizedBox(height: 16),
 
-                // Zailtasun aukeraketa
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -290,20 +323,20 @@ class _PantailaHasiState extends State<PantailaHasi> {
                 ),
                 SizedBox(height: 24),
 
-                // Hasi jokoa botoia
                 Container(
                   width: double.infinity,
                   height: 50,
                   child: ElevatedButton(
                     onPressed: aukeratutakoSugeMota != null && aukeratutakoZailtasuna != null
                         ? () {
-                      Navigator.pushReplacement(
+                      Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => JokoOrria(
                             sugeMota: aukeratutakoSugeMota!,
                             zailtasuna: zailtasunak[aukeratutakoZailtasuna!]['balioa'],
                             puntuakPerJanaria: zailtasunak[aukeratutakoZailtasuna!]['puntuak'],
+                            onJokoaAmaitu: _gehituPuntuak,
                           ),
                         ),
                       );

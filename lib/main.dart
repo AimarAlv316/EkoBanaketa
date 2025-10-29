@@ -21,7 +21,7 @@ class SugeJokoaApp extends StatelessWidget {
           foregroundColor: Colors.grey[800],
         ),
       ),
-      home: LoginOrria(), // Cambiado a LoginOrria
+      home: LoginOrria(),
     );
   }
 }

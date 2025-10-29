@@ -26,21 +26,16 @@ class _LoginOrriaState extends State<LoginOrria> {
       _errorea = '';
     });
 
-    // Simulatu karga
     await Future.delayed(Duration(milliseconds: 1500));
 
-    // Login sinplea
-    if (_erabiltzaileController.text == 'admin' && _pasahitzController.text == 'admin') {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => PantailaHasi()),
-      );
-    } else {
-      setState(() {
-        _errorea = 'Erabiltzailea edo pasahitza okerrak';
-        _kargatzen = false;
-      });
-    }
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PantailaHasi(
+          erabiltzaileIzena: _erabiltzaileController.text,
+        ),
+      ),
+    );
   }
 
   @override
@@ -55,7 +50,6 @@ class _LoginOrriaState extends State<LoginOrria> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(height: 60),
-                // Logo
                 Container(
                   padding: EdgeInsets.all(20),
                   decoration: BoxDecoration(
@@ -90,7 +84,6 @@ class _LoginOrriaState extends State<LoginOrria> {
                 ),
                 SizedBox(height: 40),
 
-                // Erabiltzaile eremua
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.grey[50],
@@ -109,7 +102,6 @@ class _LoginOrriaState extends State<LoginOrria> {
                 ),
                 SizedBox(height: 16),
 
-                // Pasahitz eremua
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.grey[50],
@@ -140,7 +132,6 @@ class _LoginOrriaState extends State<LoginOrria> {
                 ),
                 SizedBox(height: 8),
 
-                // Errorea
                 if (_errorea.isNotEmpty)
                   Container(
                     width: double.infinity,
@@ -168,7 +159,6 @@ class _LoginOrriaState extends State<LoginOrria> {
                   ),
                 SizedBox(height: 24),
 
-                // Sartu botoia
                 Container(
                   width: double.infinity,
                   height: 50,
@@ -202,7 +192,6 @@ class _LoginOrriaState extends State<LoginOrria> {
                 ),
                 SizedBox(height: 20),
 
-                // Argibideak
                 Container(
                   padding: EdgeInsets.all(16),
                   decoration: BoxDecoration(
@@ -223,7 +212,7 @@ class _LoginOrriaState extends State<LoginOrria> {
                       ),
                       SizedBox(height: 4),
                       Text(
-                        'Erabiltzailea: admin\nPasahitza: admin',
+                        'Erabiltzailea: zure izena\nPasahitza: edozer',
                         style: TextStyle(
                           color: Colors.blue[600],
                           fontSize: 11,

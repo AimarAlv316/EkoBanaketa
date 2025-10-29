@@ -3,18 +3,19 @@ import 'package:flutter/services.dart';
 import 'suge_joko_logika.dart';
 import 'widgets/kontrol_botoia.dart';
 import 'suge_mota.dart';
-import 'pantaila_hasi.dart';
 
 class JokoOrria extends StatefulWidget {
   final SugeMota sugeMota;
   final int zailtasuna;
   final int puntuakPerJanaria;
+  final Function(int)? onJokoaAmaitu;
 
   const JokoOrria({
     Key? key,
     required this.sugeMota,
     required this.zailtasuna,
     required this.puntuakPerJanaria,
+    this.onJokoaAmaitu,
   }) : super(key: key);
 
   @override
@@ -41,10 +42,10 @@ class _JokoOrriaState extends State<JokoOrria> {
   }
 
   void _bueltatuHasierara() {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => PantailaHasi()),
-    );
+    if (widget.onJokoaAmaitu != null) {
+      widget.onJokoaAmaitu!(jokoLogika.puntuak);
+    }
+    Navigator.pop(context);
   }
 
   void _handleKeyEvent(RawKeyEvent event) {
@@ -70,6 +71,11 @@ class _JokoOrriaState extends State<JokoOrria> {
         jokoLogika.aldatuNorabidea(Norabidea.ESKUMA);
       }
     }
+  }
+
+  void _hasiBerriz() {
+    jokoLogika.hasiJokoa();
+    setState(() {});
   }
 
   @override
@@ -235,10 +241,7 @@ class _JokoOrriaState extends State<JokoOrria> {
                           Column(
                             children: [
                               ElevatedButton(
-                                onPressed: jokoLogika.jokoaBukatuta ? () {
-                                  jokoLogika.hasiJokoa();
-                                  setState(() {});
-                                } : null,
+                                onPressed: jokoLogika.jokoaBukatuta ? _hasiBerriz : null,
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: widget.sugeMota.buruKolorea,
                                   foregroundColor: Colors.white,
