@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'joko_orria.dart';
 import 'suge_mota.dart';
+import 'login_orria.dart'; // Añadido para el logout
 
 class PantailaHasi extends StatefulWidget {
   @override
@@ -12,6 +13,7 @@ class _PantailaHasiState extends State<PantailaHasi> {
   int? aukeratutakoZailtasuna;
 
   final List<SugeMota> sugeMotak = [
+    // ... (mantener igual tu código existente)
     SugeMota(
       izena: 'Klasikoa',
       deskribapena: 'Suge tradizionala',
@@ -48,10 +50,28 @@ class _PantailaHasiState extends State<PantailaHasi> {
     {'izena': 'Zaila', 'balioa': 150, 'deskribapena': 'Azkarra', 'puntuak': 20},
   ];
 
+  void _eginLogout() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => LoginOrria()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: Text('Suge Jokoa'),
+        backgroundColor: Colors.white,
+        elevation: 1,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.logout, color: Colors.grey[700]),
+            onPressed: _eginLogout,
+          ),
+        ],
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -94,6 +114,7 @@ class _PantailaHasiState extends State<PantailaHasi> {
                 ),
                 SizedBox(height: 24),
 
+                // ... (mantener el resto de tu código igual)
                 Text(
                   'AUKERATU SUGE MOTA',
                   style: TextStyle(
@@ -211,6 +232,7 @@ class _PantailaHasiState extends State<PantailaHasi> {
     );
   }
 
+  // ... (mantener los métodos _sugeMotaTxartela y _zailtasunBotoia igual)
   Widget _sugeMotaTxartela(SugeMota sugeMota) {
     final bool aukeratuta = aukeratutakoSugeMota == sugeMota;
 

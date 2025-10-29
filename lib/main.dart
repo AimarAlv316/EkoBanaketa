@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'pantaila_hasi.dart';
+import 'login_orria.dart';
 
 void main() {
   runApp(SugeJokoaApp());
@@ -21,7 +21,7 @@ class SugeJokoaApp extends StatelessWidget {
           foregroundColor: Colors.grey[800],
         ),
       ),
-      home: PantailaHasi(),
+      home: LoginOrria(), // Cambiado a LoginOrria
     );
   }
 }
