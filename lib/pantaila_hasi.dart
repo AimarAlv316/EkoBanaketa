@@ -2,6 +2,67 @@ import 'package:flutter/material.dart';
 import 'joko_orria.dart';
 import 'suge_mota.dart';
 import 'login_orria.dart';
+import 'database_helper.dart';
+
+// Suge moten zerrenda
+final List<SugeMota> sugeMotak = [
+  SugeMota(
+    izena: 'Klasikoa',
+    deskribapena: 'Suge berde klasikoa',
+    buruKolorea: Color(0xFF4CAF50),
+    gorputzKolorea: Color(0xFF8BC34A),
+    ikonoa: Icons.forest,
+  ),
+  SugeMota(
+    izena: 'Urdea',
+    deskribapena: 'Suge urdina',
+    buruKolorea: Color(0xFF2196F3),
+    gorputzKolorea: Color(0xFF64B5F6),
+    ikonoa: Icons.water,
+  ),
+  SugeMota(
+    izena: 'Suge Gorria',
+    deskribapena: 'Suge gorri bizia',
+    buruKolorea: Color(0xFFF44336),
+    gorputzKolorea: Color(0xFFE57373),
+    ikonoa: Icons.local_fire_department,
+  ),
+  SugeMota(
+    izena: 'Morea',
+    deskribapena: 'Suge morea',
+    buruKolorea: Color(0xFF9C27B0),
+    gorputzKolorea: Color(0xFFBA68C8),
+    ikonoa: Icons.emoji_nature,
+  ),
+];
+
+// Zailtasun mailen zerrenda
+final List<Map<String, dynamic>> zailtasunak = [
+  {
+    'izena': 'Erraza',
+    'deskribapena': 'Geldiagoa',
+    'balioa': 300,
+    'puntuak': 1,
+  },
+  {
+    'izena': 'Normala',
+    'deskribapena': 'Abiadura normala',
+    'balioa': 200,
+    'puntuak': 2,
+  },
+  {
+    'izena': 'Zaila',
+    'deskribapena': 'Azkarra',
+    'balioa': 150,
+    'puntuak': 3,
+  },
+  {
+    'izena': 'Aditua',
+    'deskribapena': 'Oso azkarra',
+    'balioa': 100,
+    'puntuak': 5,
+  },
+];
 
 class PantailaHasi extends StatefulWidget {
   final String erabiltzaileIzena;
@@ -16,43 +77,20 @@ class _PantailaHasiState extends State<PantailaHasi> {
   SugeMota? aukeratutakoSugeMota;
   int? aukeratutakoZailtasuna;
   int puntuakTotal = 0;
+  final DatabaseHelper _dbHelper = DatabaseHelper();
 
-  final List<SugeMota> sugeMotak = [
-    SugeMota(
-      izena: 'Klasikoa',
-      deskribapena: 'Suge tradizionala',
-      buruKolorea: Color(0xFF4CAF50),
-      gorputzKolorea: Color(0xFF8BC34A),
-      ikonoa: Icons.eco,
-    ),
-    SugeMota(
-      izena: 'Urrea',
-      deskribapena: 'Suge distiratsua',
-      buruKolorea: Color(0xFFFFC107),
-      gorputzKolorea: Color(0xFFFFEB3B),
-      ikonoa: Icons.workspace_premium,
-    ),
-    SugeMota(
-      izena: 'Urdina',
-      deskribapena: 'Suge urdina',
-      buruKolorea: Color(0xFF2196F3),
-      gorputzKolorea: Color(0xFF64B5F6),
-      ikonoa: Icons.water_drop,
-    ),
-    SugeMota(
-      izena: 'Morea',
-      deskribapena: 'Suge morea',
-      buruKolorea: Color(0xFF9C27B0),
-      gorputzKolorea: Color(0xFFBA68C8),
-      ikonoa: Icons.nightlight_round,
-    ),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _kargatuPuntuak();
+  }
 
-  final List<Map<String, dynamic>> zailtasunak = [
-    {'izena': 'Erraza', 'balioa': 300, 'deskribapena': 'Geldiagoa', 'puntuak': 10},
-    {'izena': 'Normala', 'balioa': 200, 'deskribapena': 'Erdikoa', 'puntuak': 15},
-    {'izena': 'Zaila', 'balioa': 150, 'deskribapena': 'Azkarra', 'puntuak': 20},
-  ];
+  void _kargatuPuntuak() async {
+    int puntuak = await _dbHelper.getPuntuak(widget.erabiltzaileIzena);
+    setState(() {
+      puntuakTotal = puntuak;
+    });
+  }
 
   void _eginLogout() {
     Navigator.pushReplacement(
@@ -61,10 +99,52 @@ class _PantailaHasiState extends State<PantailaHasi> {
     );
   }
 
-  void _gehituPuntuak(int puntuak) {
+  void _gehituPuntuak(int puntuak) async {
+    int puntuBerriak = puntuakTotal + puntuak;
     setState(() {
-      puntuakTotal += puntuak;
+      puntuakTotal = puntuBerriak;
     });
+
+    // Gorde datu-basean
+    await _dbHelper.saveErabiltzailea(widget.erabiltzaileIzena, puntuBerriak);
+  }
+
+  void _ikusiRanking() async {
+    final ranking = await _dbHelper.getRanking();
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Rankinga'),
+        content: Container(
+          width: double.maxFinite,
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: ranking.length,
+            itemBuilder: (context, index) {
+              final erabiltzailea = ranking[index];
+              return ListTile(
+                leading: CircleAvatar(
+                  backgroundColor: Colors.green,
+                  child: Text(
+                    '${index + 1}',
+                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                title: Text(erabiltzailea['izena']),
+                trailing: Text('${erabiltzailea['puntuak']} pt'),
+              );
+            },
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Itxi'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -100,6 +180,10 @@ class _PantailaHasiState extends State<PantailaHasi> {
             ),
           ),
           SizedBox(width: 8),
+          IconButton(
+            icon: Icon(Icons.leaderboard, color: Colors.grey[700]),
+            onPressed: _ikusiRanking,
+          ),
           IconButton(
             icon: Icon(Icons.logout, color: Colors.grey[700]),
             onPressed: _eginLogout,
