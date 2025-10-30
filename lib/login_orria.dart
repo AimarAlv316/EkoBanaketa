@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'pantaila_hasi.dart';
-import 'database_helper.dart';
 
 class LoginOrria extends StatefulWidget {
   @override
@@ -13,12 +12,11 @@ class _LoginOrriaState extends State<LoginOrria> {
   bool _ezkutatuPasahitza = true;
   bool _kargatzen = false;
   String _errorea = '';
-  final DatabaseHelper _dbHelper = DatabaseHelper();
 
   void _eginLogin() async {
-    if (_erabiltzaileController.text.isEmpty) {
+    if (_erabiltzaileController.text.isEmpty || _pasahitzController.text.isEmpty) {
       setState(() {
-        _errorea = 'Mesedez, idatzi zure izena';
+        _errorea = 'Mesedez, bete erabiltzailea eta pasahitza';
       });
       return;
     }
@@ -28,10 +26,7 @@ class _LoginOrriaState extends State<LoginOrria> {
       _errorea = '';
     });
 
-    await Future.delayed(Duration(milliseconds: 1000));
-
-    // Erabiltzailea datu-basean gorde (puntuak 0 izanik)
-    await _dbHelper.saveErabiltzailea(_erabiltzaileController.text, 0);
+    await Future.delayed(Duration(milliseconds: 1500));
 
     Navigator.pushReplacement(
       context,
@@ -80,7 +75,7 @@ class _LoginOrriaState extends State<LoginOrria> {
                 ),
                 SizedBox(height: 8),
                 Text(
-                  'Sartu zure izena hasi jolasteko',
+                  'Hasi saioa zure kontuan',
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.grey[600],
@@ -98,7 +93,7 @@ class _LoginOrriaState extends State<LoginOrria> {
                   child: TextField(
                     controller: _erabiltzaileController,
                     decoration: InputDecoration(
-                      labelText: 'Zure izena',
+                      labelText: 'Erabiltzailea',
                       prefixIcon: Icon(Icons.person, color: Colors.grey[600]),
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -106,6 +101,36 @@ class _LoginOrriaState extends State<LoginOrria> {
                   ),
                 ),
                 SizedBox(height: 16),
+
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey[50],
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.grey[300]!),
+                  ),
+                  child: TextField(
+                    controller: _pasahitzController,
+                    obscureText: _ezkutatuPasahitza,
+                    decoration: InputDecoration(
+                      labelText: 'Pasahitza',
+                      prefixIcon: Icon(Icons.lock, color: Colors.grey[600]),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _ezkutatuPasahitza ? Icons.visibility : Icons.visibility_off,
+                          color: Colors.grey[600],
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _ezkutatuPasahitza = !_ezkutatuPasahitza;
+                          });
+                        },
+                      ),
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 8),
 
                 if (_errorea.isNotEmpty)
                   Container(
@@ -178,7 +203,7 @@ class _LoginOrriaState extends State<LoginOrria> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Oharra:',
+                        'Proba datuak:',
                         style: TextStyle(
                           color: Colors.blue[700],
                           fontWeight: FontWeight.w500,
@@ -187,7 +212,7 @@ class _LoginOrriaState extends State<LoginOrria> {
                       ),
                       SizedBox(height: 4),
                       Text(
-                        'Zure puntuak gordeko dira zure izenarekin.\nZure izena bakarrik behar duzu sartzeko.',
+                        'Erabiltzailea: zure izena\nPasahitza: edozer',
                         style: TextStyle(
                           color: Colors.blue[600],
                           fontSize: 11,
